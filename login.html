@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<title>Login</title>
+    <style>
+	*
+{
+	margin:0;
+	padding:0;
+}
+header
+{
+	width: 100%;
+	background-attachment: fixed;
+	background-image:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url(http://abcyoga.info/wp-content/uploads/2018/09/brown-wood-texture-medium-size-preview-cherry-wood-texture-file-format-color-theme-brown-reddish-copper-keywords-natural-background-with-copy-space.jpg);
+	height:100vh;
+	background-position:  center;
+	background-size: cover;
+}
+        body{
+
+
+    /*background-color: #e67e22 ;
+    color: palevioletred;
+    font-family: verdana;
+    font-size: 100% */
+
+        }
+            h1 {
+    color: indigo;
+    font-family: verdana;
+    font-size: 100%;
+}
+        h3 {
+    color: #e67e22;
+    font-family: verdana;
+    font-size: 100%;
+}
+	.login-form {
+	margin-top: 150px;
+    background-color: #fff;
+    padding: 2.475rem 2.875rem;
+   width: 600px;
+
+}
+.right-div .button
+{
+    margin-top: 230px;
+margin-left: 300px;
+    border: 1px solid white;
+    display: block;
+    width: 200px;
+    height: 50px;
+    background: #e67e22;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+.right-div a:hover
+{
+	background-color: #e67e22;
+	color: white;
+	transform: scale(1.2,1.2);
+	transition: all 0.5s linear ;
+text-decoration: none;
+
+}
+.main-nav
+{
+	list-style: none;
+	float: right;
+	margin-top: 50px;
+}
+.main-nav li
+{
+	display: inline-block;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+.main-nav li a
+{
+	/*border: thin solid white;*/
+	color: white;
+	text-decoration: none;
+	text-shadow: 3px 2px black;
+	font-size: 90%;
+	font-weight: bold;
+}
+#white
+{
+	color: white;
+    font-size: 20px;
+}
+.main-nav li a:hover
+{
+	color: #e67e22;
+	border-bottom: 2px solid #e67e22;
+	transition: all 0.5s linear;
+	padding:10px 0;
+}
+
+} </style>
+</head>
+
+<body>
+
+<header >
+<br>
+<div class="container">
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+<div class="login-form">
+<h3 style="font-size: 20px;font-weight: 800">Login Form</h3>
+<form action="" method="POST" >
+Username: <input type="text" name="user"><br><br>
+Password: <input type="password" name="pass"><br> <br>
+<input type ="submit" value="Login"class="btn btn-success" name="submit" />
+<a href="OnlineGamingindex.html" role="button" class="btn btn-success">Logout</a>
+</form>
+</div>
+</div>
+<div class="col-md-3"></div>
+
+ </div>
+</div>
+</div>
+</header>
+
+
+<?php
+session_start();
+if(isset($_POST["submit"])){
+
+if(!empty($_POST['user']) && !empty($_POST['pass'])) {
+    $user=$_POST['user'];
+    $pass=$_POST['pass'];
+
+    $con=mysqli_connect('localhost','root','') or die(mysqli_error());
+    mysqli_select_db($con, 'onlinegaming') or die("cannot select DB");
+
+    $query=mysqli_query($con,"SELECT * FROM users WHERE username='".$user."' AND password='".$pass."'");
+    $numrows=mysqli_num_rows( $query);
+    if($numrows!=0)
+    {
+    while($row=mysqli_fetch_assoc($query))
+    {
+    $dbusername=$row['username'];
+    $dbpassword=$row['password'];
+    }
+
+    if($user == $dbusername && $pass == $dbpassword)
+    {
+    session_start();
+    $_SESSION['sess_user']=$user;
+        echo "Logged IN!";
+
+    /* Redirect browser */
+    header("Location: game1.html");
+    }
+    } else {
+    echo "Invalid username or password!";
+    }
+
+} else {
+    echo "All fields are required!";
+}
+}
+?>
+</body>
+</html>
